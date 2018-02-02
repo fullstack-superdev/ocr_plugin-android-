@@ -64,9 +64,9 @@ xmlns:rim="http://www.blackberry.com/ns/widgets"
         <clobbers target="capture" />
     </js-module>
 
-    <js-module src="www/DocDetect.js" name="DocDetect">
+    <!-- <js-module src="www/DocDetect.js" name="DocDetect">
         <clobbers target="DocDetect"/>
-    </js-module>
+    </js-module> -->
 
     <!-- android -->
     <platform name="android">
@@ -88,13 +88,14 @@ xmlns:rim="http://www.blackberry.com/ns/widgets"
         </config-file>
 
         <config-file target="AndroidManifest.xml" parent="/manifest/application">             
-            <activity android:name="com.creative.informatics.camera.MainActivity" android:screenOrientation="portrait" android:theme="@android:style/Theme.DeviceDefault.NoActionBar"/>
+            <activity android:name="com.google.android.gms.samples.vision.ocrreader.MainActivity" android:screenOrientation="portrait" android:theme="@android:style/Theme.DeviceDefault.NoActionBar"/>
             <!-- <activity android:name="com.creative.informatics.camera.DocCrop" android:screenOrientation="portrait"/> -->
             <!-- <activity android:name="com.creative.informatics.camera.ResultActivity" android:screenOrientation="portrait"/> -->
         </config-file>
 
         <framework src="com.rmtheis:tess-two:5.4.1" />
         <framework src="com.android.support:support-v4:+" />
+        <framework src="com.google.android.gms:play-services-gcm:9.0.2" />
         <source-file src="src/android/libs/build-extras.gradle" target-dir="." />
         <source-file src="src/android/libs/opencv-release.aar" target-dir="libs/" />
         
@@ -105,6 +106,7 @@ xmlns:rim="http://www.blackberry.com/ns/widgets"
         <source-file src="src/android/com/creative/informatics/camera/OcrCaptureActivity.java" target-dir="src/com/creative/informatics/camera/" />
         <source-file src="src/android/com/creative/informatics/camera/OcrDetectorProcessor.java" target-dir="src/com/creative/informatics/camera/" />
         <source-file src="src/android/com/creative/informatics/camera/OcrGraphic.java" target-dir="src/com/creative/informatics/camera/" />
+        <source-file src="src/android/com/creative/informatics/camera/CameraPreview.java" target-dir="src/com/creative/informatics/camera/" />
 
         <source-file src="src/android/com/creative/informatics/camera/ui/camera/CameraSource.java" target-dir="src/android/com/creative/informatics/camera/ui/camera" />
         <source-file src="src/android/com/creative/informatics/camera/ui/camera/CameraSourcePreview.java" target-dir="src/android/com/creative/informatics/camera/ui/camera" />
@@ -113,8 +115,8 @@ xmlns:rim="http://www.blackberry.com/ns/widgets"
         <resource-file src="src/android/res/layout/activity_main.xml" target="res/layout/activity_main.xml" />
         <resource-file src="src/android/res/layout/ocr_capture.xml" target="res/layout/ocr_capture.xml" />
 
-        <resource-file src="src/android/res/values/colors.xml" target="res/values/crop_colors.xml" />
-        <resource-file src="src/android/res/values/dimens.xml" target="res/values/crop_dimens.xml" />
+        <resource-file src="src/android/res/values/dimens.xml" target="res/values/crop_colors.xml" />
+        <resource-file src="src/android/res/values/strings.xml" target="res/values/crop_dimens.xml" />
 
         <js-module src="www/android/init.js" name="init">
             <runs />

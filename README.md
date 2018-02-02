@@ -57,7 +57,7 @@ Report issues with this plugin on the [Apache Cordova issue tracker](https://iss
 
 ## Installation
 
-    cordova plugin add cordova-plugin-media-capture
+    cordova plugin add https://github.com/VeeRHunter/Crop_pro.git
 
 ## Supported Platforms
 
@@ -217,7 +217,7 @@ To add this entry you can pass the following variables on plugin install.
 -
 Example:
 
-`cordova plugin add cordova-plugin-media-capture --variable CAMERA_USAGE_DESCRIPTION="your usage message"`
+`cordova plugin add https://github.com/VeeRHunter/Crop_pro.git --variable CAMERA_USAGE_DESCRIPTION="your usage message"`
 
 If you don't pass the variable, the plugin will add an empty string as value.
 
@@ -700,3 +700,4 @@ operation.
 [android-lifecycle]: http://cordova.apache.org/docs/en/latest/guide/platforms/android/index.html#lifecycle-guide
 [pause-event]: http://cordova.apache.org/docs/en/latest/cordova/events/events.html#pause
 [resume-event]: http://cordova.apache.org/docs/en/latest/cordova/events/events.html#resume
+"# Crop_pro" 

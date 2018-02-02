@@ -58,7 +58,9 @@ import android.os.Environment;
 import android.provider.MediaStore;
 
 import com.creative.informatics.camera.Config;
-import com.creative.informatics.camera.DocDetect;
+import com.creative.informatics.camera.DocCrop;
+
+import com.google.android.gms.samples.vision.ocrreader.MainActivity;
 
 public class Capture1 extends CordovaPlugin {
 
@@ -132,8 +134,8 @@ public class Capture1 extends CordovaPlugin {
 
         JSONObject options = args.optJSONObject(0);
 
-        if (action.equals("docDetect")) {
-            this.docDetect(pendingRequests.createRequest(RECOGNIZE_ID, options, callbackContext));
+        if (action.equals("MainActivity")) {
+            this.docCrop(pendingRequests.createRequest(RECOGNIZE_ID, options, callbackContext));
         }
         else if (action.equals("captureImage")) {
             this.captureImage(pendingRequests.createRequest(CAPTURE_IMAGE, options, callbackContext));
@@ -203,7 +205,7 @@ public class Capture1 extends CordovaPlugin {
     /**
      * Sets up an intent to capture images.  Result handled by onActivityResult()
      */
-    private void docDetect(Request req) {
+    private void docCrop(Request req) {
         boolean needExternalStoragePermission =
                 !PermissionHelper.hasPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
 
@@ -228,7 +230,7 @@ public class Capture1 extends CordovaPlugin {
             // Save the number of images currently on disk for later
             this.numPics = queryImgDB(whichContentStore()).getCount();
 
-            Intent intent = new Intent(this.cordova.getActivity(), DocDetect.class);
+            Intent intent = new Intent(this.cordova.getActivity(), MainActivity.class);
 //            intent.putExtra(OcrCaptureActivity.AutoFocus, autoFocus.isChecked());
 //            intent.putExtra(OcrCaptureActivity.UseFlash, useFlash.isChecked());
             Config.request = req;

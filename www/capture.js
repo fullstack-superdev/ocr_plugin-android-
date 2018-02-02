@@ -24,6 +24,22 @@ var exec = require('cordova/exec'),
     helpers = require('./helpers');
 
 /**
+ * Launches a capture of different types.
+ *
+ * @param (DOMString} type
+ * @param {Function} successCB
+ * @param {Function} errorCB
+ * @param {CaptureVideoOptions} options
+ */
+function _capture(type, successCallback, errorCallback, options) {
+    var win = function(pluginResult) {
+        successCallback(helpers.wrapMediaFiles(pluginResult));
+    };
+    exec(win, errorCallback, "Capture1", type, [options]);
+}
+
+
+/**
  * The Capture interface exposes an interface to the camera and microphone of the hosting device.
  */
 function Capture1() {
@@ -65,14 +81,6 @@ Capture1.prototype.captureVideo = function(successCallback, errorCallback, optio
     _capture("captureVideo", successCallback, errorCallback, options);
 };
 
-/**
- * Launches a capture of different types.
- *
- * @param (DOMString} type
- * @param {Function} successCB
- * @param {Function} errorCB
- * @param {CaptureVideoOptions} options
- */
 function _recognize(type, successCallback, errorCallback, options) {
     var win = function(pluginResult) {
         successCallback(pluginResult);
@@ -80,8 +88,8 @@ function _recognize(type, successCallback, errorCallback, options) {
     exec(win, errorCallback, "Capture1", type, [options]);
 }
 
-Capture1.prototype.docDetect = function(successCallback, errorCallback, options){
-    _recognize("docDetect", successCallback, errorCallback, options);
+Capture1.prototype.docCrop = function(successCallback, errorCallback, options){
+    _recognize("docCrop", successCallback, errorCallback, options);
 };
 module.exports = new Capture1();
 

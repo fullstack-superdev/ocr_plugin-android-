@@ -1,5 +1,5 @@
 dependencies {
-    compile (name: 'opencv-release', ext: 'aar')
+    compile ("com.google.android.gms:play-services-auth:9.0.2") {force = true} compile ("com.google.android.gms:play-services-plus:9.0.2") {force = true} compile ("com.google.android.gms:play-services-identity:9.0.2") {force = true} compile ("com.google.android.gms:play-services-gcm:9.0.2") {force = true} compile ("com.google.android.gms:play-services-base:9.0.2") {force = true} compile ("com.google.android.gms:play-services-basement:9.0.2") {force = true} compile ("com.google.android.gms:play-services-tasks:9.0.2") {force = true} 
 }
 repositories {
     flatDir{
