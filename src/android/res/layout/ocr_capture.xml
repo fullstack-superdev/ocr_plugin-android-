@@ -7,16 +7,16 @@
     android:layout_height="match_parent"
     android:keepScreenOn="true">
 
-                <com.google.android.gms.samples.vision.ocrreader.ui.camera.CameraSourcePreview
+                <com.creative.informatics.ui.CameraSourcePreview
                     android:id="@+id/preview"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <com.google.android.gms.samples.vision.ocrreader.ui.camera.GraphicOverlay
+                    <com.creative.informatics.ui.GraphicOverlay
                         android:id="@+id/graphicOverlay"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent" />
-                </com.google.android.gms.samples.vision.ocrreader.ui.camera.CameraSourcePreview>
+                </com.creative.informatics.ui.CameraSourcePreview>
 
                 <Button
                     android:id="@+id/button_capture"
