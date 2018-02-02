@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.google.android.gms.samples.vision.ocrreader.ui.camera;
+package com.creative.informatics.ui;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -124,7 +124,6 @@ public class CameraSource {
 
     /**
      * Rotation of the device, and thus the associated preview images captured from the device.
-     * See {@link Frame.Metadata#getRotation()}.
      */
     private int mRotation;
 

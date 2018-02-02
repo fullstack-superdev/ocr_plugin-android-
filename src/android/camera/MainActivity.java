@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.google.android.gms.samples.vision.ocrreader;
+package com.creative.informatics.camera;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -44,7 +44,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(getResources().getIdentifier("activity_main", "layout", getPackageName()));
 
         // statusMessage = (TextView)findViewById(R.id.status_message);
         // textValue = (TextView)findViewById(R.id.text_value);

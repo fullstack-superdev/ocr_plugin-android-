@@ -44,7 +44,7 @@ public class FileHelper {
     /**
      * Returns the mime type of the data specified by the given URI string.
      *
-     * @param uriString the URI string of the data
+     * @param uri the URI string of the data
      * @return the mime type of the specified data
      */
     public static String getMimeType(Uri uri, CordovaInterface cordova) {

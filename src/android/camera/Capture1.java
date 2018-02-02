@@ -57,11 +57,6 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 
-import com.creative.informatics.camera.Config;
-import com.creative.informatics.camera.DocCrop;
-
-import com.google.android.gms.samples.vision.ocrreader.MainActivity;
-
 public class Capture1 extends CordovaPlugin {
 
     private static final String VIDEO_3GPP = "video/3gpp";
@@ -233,8 +228,6 @@ public class Capture1 extends CordovaPlugin {
             Intent intent = new Intent(this.cordova.getActivity(), MainActivity.class);
 //            intent.putExtra(OcrCaptureActivity.AutoFocus, autoFocus.isChecked());
 //            intent.putExtra(OcrCaptureActivity.UseFlash, useFlash.isChecked());
-            Config.request = req;
-            Config.pendingRequests = pendingRequests;
          this.cordova.startActivityForResult((CordovaPlugin) this, intent, req.requestCode);
         }
     }

@@ -87,30 +87,27 @@ xmlns:rim="http://www.blackberry.com/ns/widgets"
             <uses-feature android:name="android.hardware.camera.autofocus" />
         </config-file>
 
-        <config-file target="AndroidManifest.xml" parent="/manifest/application">             
-            <activity android:name="com.google.android.gms.samples.vision.ocrreader.MainActivity" android:screenOrientation="portrait" android:theme="@android:style/Theme.DeviceDefault.NoActionBar"/>
-            <!-- <activity android:name="com.creative.informatics.camera.DocCrop" android:screenOrientation="portrait"/> -->
-            <!-- <activity android:name="com.creative.informatics.camera.ResultActivity" android:screenOrientation="portrait"/> -->
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+        <activity android:name="com.creative.informatics.camera.MainActivity" android:screenOrientation="portrait" android:theme="@android:style/Theme.DeviceDefault.NoActionBar" />
+        <activity android:name="com.creative.informatics.camera.OcrCaptureActivity" android:screenOrientation="portrait" android:theme="@android:style/Theme.DeviceDefault.NoActionBar" />
         </config-file>
 
-        <framework src="com.rmtheis:tess-two:5.4.1" />
         <framework src="com.android.support:support-v4:+" />
-        <framework src="com.google.android.gms:play-services-gcm:9.0.2" />
+        <framework src="com.google.android.gms:play-services-vision:9.4.0+" />
         <source-file src="src/android/libs/build-extras.gradle" target-dir="." />
         <source-file src="src/android/libs/opencv-release.aar" target-dir="libs/" />
         
-        <source-file src="src/android/Capture1.java" target-dir="src/com/creative/informatics/camera" />
-        <source-file src="src/android/PendingRequests.java" target-dir="src/com/creative/informatics/camera" />
-        <source-file src="src/android/FileHelper.java" target-dir="src/com/creative/informatics/camera" />
-        <source-file src="src/android/com/creative/informatics/camera/MainActivity.java" target-dir="src/com/creative/informatics/camera/" />
-        <source-file src="src/android/com/creative/informatics/camera/OcrCaptureActivity.java" target-dir="src/com/creative/informatics/camera/" />
-        <source-file src="src/android/com/creative/informatics/camera/OcrDetectorProcessor.java" target-dir="src/com/creative/informatics/camera/" />
-        <source-file src="src/android/com/creative/informatics/camera/OcrGraphic.java" target-dir="src/com/creative/informatics/camera/" />
-        <source-file src="src/android/com/creative/informatics/camera/CameraPreview.java" target-dir="src/com/creative/informatics/camera/" />
+        <source-file src="src/android/camera/Capture1.java" target-dir="src/com/creative/informatics/camera" />
+        <source-file src="src/android/camera/PendingRequests.java" target-dir="src/com/creative/informatics/camera" />
+        <source-file src="src/android/camera/FileHelper.java" target-dir="src/com/creative/informatics/camera" />
+        <source-file src="src/android/camera/MainActivity.java" target-dir="src/com/creative/informatics/camera/" />
+        <source-file src="src/android/camera/OcrCaptureActivity.java" target-dir="src/com/creative/informatics/camera/" />
+        <source-file src="src/android/camera/OcrDetectorProcessor.java" target-dir="src/com/creative/informatics/camera/" />
+        <source-file src="src/android/camera/OcrGraphic.java" target-dir="src/com/creative/informatics/camera/" />
 
-        <source-file src="src/android/com/creative/informatics/camera/ui/camera/CameraSource.java" target-dir="src/android/com/creative/informatics/camera/ui/camera" />
-        <source-file src="src/android/com/creative/informatics/camera/ui/camera/CameraSourcePreview.java" target-dir="src/android/com/creative/informatics/camera/ui/camera" />
-        <source-file src="src/android/com/creative/informatics/camera/ui/camera/GraphicOverlay.java" target-dir="src/android/com/creative/informatics/camera/ui/camera" />
+        <source-file src="src/android/ui/CameraSource.java" target-dir="src/com/creative/informatics/ui/" />
+        <source-file src="src/android/ui/CameraSourcePreview.java" target-dir="src/com/creative/informatics/ui/" />
+        <source-file src="src/android/ui/GraphicOverlay.java" target-dir="src/com/creative/informatics/ui/" />
 
         <resource-file src="src/android/res/layout/activity_main.xml" target="res/layout/activity_main.xml" />
         <resource-file src="src/android/res/layout/ocr_capture.xml" target="res/layout/ocr_capture.xml" />

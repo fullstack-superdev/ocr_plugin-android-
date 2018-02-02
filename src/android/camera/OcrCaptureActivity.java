@@ -13,25 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.google.android.gms.samples.vision.ocrreader;
+package com.creative.informatics.camera;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import com.creative.informatics.ui.CameraSource;
+import com.creative.informatics.ui.CameraSourcePreview;
+import com.creative.informatics.ui.GraphicOverlay;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -43,9 +43,6 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.CommonStatusCodes;
-import com.google.android.gms.samples.vision.ocrreader.ui.camera.CameraSource;
-import com.google.android.gms.samples.vision.ocrreader.ui.camera.CameraSourcePreview;
-import com.google.android.gms.samples.vision.ocrreader.ui.camera.GraphicOverlay;
 import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
 
@@ -56,7 +53,7 @@ import java.io.IOException;
  * rear facing camera. During detection overlay graphics are drawn to indicate the position,
  * size, and contents of each TextBlock.
  */
-public final class OcrCaptureActivity extends AppCompatActivity {
+public final class OcrCaptureActivity extends Activity {
     private static final String TAG = "OcrCaptureActivity";
     public static String[] resultStr = new String[8];
     // Intent request code to handle updating play services if needed.
@@ -86,7 +83,7 @@ public final class OcrCaptureActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
-        setContentView(R.layout.ocr_capture);
+        setContentView(getResources().getIdentifier("ocr_capture", "layout", getPackageName()));
 
         // mPreview = (CameraSourcePreview) findViewById(R.id.preview);
         // mGraphicOverlay = (GraphicOverlay<OcrGraphic>) findViewById(R.id.graphicOverlay);
@@ -155,10 +152,11 @@ public final class OcrCaptureActivity extends AppCompatActivity {
             }
         };
 
-        Snackbar.make(mGraphicOverlay, getResources().getIdentifier("permission_camera_rationale", "string", getPackageName()),
-                Snackbar.LENGTH_INDEFINITE)
-                .setAction(getResources().getIdentifier("ok", "string", getPackageName()), listener)
-                .show();
+        Toast.makeText(this, getResources().getIdentifier("permission_camera_rationale", "string", getPackageName()), Toast.LENGTH_SHORT).show();
+//        Snackbar.make(mGraphicOverlay, getResources().getIdentifier("permission_camera_rationale", "string", getPackageName()),
+//                Snackbar.LENGTH_INDEFINITE)
+//                .setAction(getResources().getIdentifier("ok", "string", getPackageName()), listener)
+//                .show();
     }
 
     @Override

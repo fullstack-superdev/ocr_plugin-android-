@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.google.android.gms.samples.vision.ocrreader.ui.camera;
+package com.creative.informatics.ui;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -22,9 +22,8 @@ import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.google.android.gms.samples.vision.ocrreader.OcrCaptureActivity;
-import com.google.android.gms.samples.vision.ocrreader.OcrGraphic;
-import com.google.android.gms.vision.CameraSource;
+import com.creative.informatics.camera.OcrCaptureActivity;
+import com.creative.informatics.camera.OcrGraphic;
 
 import java.util.HashSet;
 import java.util.Set;
