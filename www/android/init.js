@@ -19,8 +19,7 @@
  *
 */
 
-var cordova = require('cordova'),
-    helpers = require('./helpers');
+var cordova = require('cordova');
 
 var SUCCESS_EVENT = "pendingcaptureresult";
 var FAILURE_EVENT = "pendingcaptureerror";
@@ -34,8 +33,6 @@ document.addEventListener("deviceready", function() {
     document.addEventListener("resume", function(event) {
         if (event.pendingResult && event.pendingResult.pluginServiceName === "Capture") {
             if (event.pendingResult.pluginStatus === "OK") {
-                var mediaFiles = helpers.wrapMediaFiles(event.pendingResult.result);
-                sChannel.fire(mediaFiles);
             } else {
                 fChannel.fire(event.pendingResult.result);
             }

@@ -20,8 +20,7 @@
  *
 */
 
-var exec = require('cordova/exec'),
-    helpers = require('./helpers');
+var exec = require('cordova/exec');
 
 
 /**
