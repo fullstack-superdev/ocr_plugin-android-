@@ -20,7 +20,7 @@
 xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:rim="http://www.blackberry.com/ns/widgets"
            id="cordova-plugin-doc-detect"
-      version="1.1.3">
+      version="1.1.4">
     <name>DocDetect</name>
 
     <description>Doc Crop using Perspective Transform</description>
@@ -30,7 +30,7 @@ xmlns:rim="http://www.blackberry.com/ns/widgets"
     <issue>https://issues.apache.org/jira/browse/CB/component/12320646</issue>
 
      <!-- <dependency id="cordova-plugin-file" version="^4.0.0" /> --> 
-    <!-- <dependency id="cordova-plugin-compat" version="^1.0.0" /> -->
+    <dependency id="cordova-plugin-compat" version="^1.0.0" />
 
     <js-module src="www/CaptureError.js" name="CaptureError">
         <clobbers target="CaptureError" />
@@ -51,10 +51,6 @@ xmlns:rim="http://www.blackberry.com/ns/widgets"
     <js-module src="www/capture.js" name="capture">
         <clobbers target="capture" />
     </js-module>
-
-    <!-- <js-module src="www/DocDetect.js" name="DocDetect">
-        <clobbers target="DocDetect"/>
-    </js-module> -->
 
     <!-- android -->
     <platform name="android">
