@@ -88,7 +88,7 @@ xmlns:rim="http://www.blackberry.com/ns/widgets"
         </config-file>
 
         <config-file target="AndroidManifest.xml" parent="/manifest/application">             
-            <activity android:name="com.creative.informatics.camera.DocDetect" android:screenOrientation="portrait" android:theme="@android:style/Theme.DeviceDefault.NoActionBar"/>
+            <activity android:name="com.creative.informatics.camera.MainActivity" android:screenOrientation="portrait" android:theme="@android:style/Theme.DeviceDefault.NoActionBar"/>
             <!-- <activity android:name="com.creative.informatics.camera.DocCrop" android:screenOrientation="portrait"/> -->
             <!-- <activity android:name="com.creative.informatics.camera.ResultActivity" android:screenOrientation="portrait"/> -->
         </config-file>
@@ -107,8 +107,8 @@ xmlns:rim="http://www.blackberry.com/ns/widgets"
         <source-file src="src/android/com/creative/informatics/camera/OcrGraphic.java" target-dir="src/com/creative/informatics/camera/" />
 
         <source-file src="src/android/com/creative/informatics/camera/ui/camera/CameraSource.java" target-dir="src/android/com/creative/informatics/camera/ui/camera" />
-        <source-file src="src/android/com/creative/informatics/camera/ui/CameraSourcePreview.java" target-dir="src/android/com/creative/informatics/camera/ui/camera" />
-        <source-file src="src/android/com/creative/informatics/camera/ui/GraphicOverlay.java" target-dir="src/android/com/creative/informatics/camera/ui/camera" />
+        <source-file src="src/android/com/creative/informatics/camera/ui/camera/CameraSourcePreview.java" target-dir="src/android/com/creative/informatics/camera/ui/camera" />
+        <source-file src="src/android/com/creative/informatics/camera/ui/camera/GraphicOverlay.java" target-dir="src/android/com/creative/informatics/camera/ui/camera" />
 
         <resource-file src="src/android/res/layout/activity_main.xml" target="res/layout/activity_main.xml" />
         <resource-file src="src/android/res/layout/ocr_capture.xml" target="res/layout/ocr_capture.xml" />
