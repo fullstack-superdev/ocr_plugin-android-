@@ -40,13 +40,10 @@ import android.media.MediaPlayer;
 public class Capture1 extends CordovaPlugin {
 
     private static final int RECOGNIZE_ID = 0;     // Constant for capture audio
-    private static final int CAPTURE_VIDEO = 2;     // Constant for capture video
+    //private static final int CAPTURE_VIDEO = 2;     // Constant for capture video
     private static final String LOG_TAG = "Recognize";
 
-    private static final int CAPTURE_INTERNAL_ERR = 0;
-    //    private static final int CAPTURE_APPLICATION_BUSY = 1;
-//    private static final int CAPTURE_INVALID_ARGUMENT = 2;
-    private static final int CAPTURE_NO_MEDIA_FILES = 3;
+    private static final int RECOGNIZED_FAILED = 3;
     private static final int CAPTURE_PERMISSION_DENIED = 4;
 
     private boolean cameraPermissionInManifest;     // Whether or not the CAMERA permission is declared in AndroidManifest.xml
@@ -128,7 +125,7 @@ public class Capture1 extends CordovaPlugin {
                 PermissionHelper.requestPermission(this, req.requestCode, Manifest.permission.CAMERA);
             }
         } else {
-            Intent intent = new Intent(this.cordova.getActivity(), MainActivity.class);
+            Intent intent = new Intent(this.cordova.getActivity(), OcrCaptureActivity.class);
 //            intent.putExtra(OcrCaptureActivity.AutoFocus, autoFocus.isChecked());
 //            intent.putExtra(OcrCaptureActivity.UseFlash, useFlash.isChecked());
             this.cordova.startActivityForResult((CordovaPlugin) this, intent, req.requestCode);
@@ -188,28 +185,9 @@ public class Capture1 extends CordovaPlugin {
         } else {
             try {
                 if (req.action != RECOGNIZE_ID) {
-                    // If canceled
-                    if (resultCode == Activity.RESULT_CANCELED) {
-                        // If we have partial results send them back to the user
-                        if (req.results.length() > 0) {
-                            pendingRequests.resolveWithSuccess(req);
-                        }
-                        // user canceled the action
-                        else {
-                            pendingRequests.resolveWithFailure(req, createErrorObject(CAPTURE_NO_MEDIA_FILES, "Canceled."));
-                        }
-                    }
-                    // If something else
-                    else {
-                        // If we have partial results send them back to the user
-                        if (req.results.length() > 0) {
-                            pendingRequests.resolveWithSuccess(req);
-                        }
-                        // something bad happened
-                        else {
-                            pendingRequests.resolveWithFailure(req, createErrorObject(CAPTURE_NO_MEDIA_FILES, "Did not complete!"));
-                        }
-                    }
+                    pendingRequests.resolveWithFailure(req, createErrorObject(RECOGNIZED_FAILED, "Canceled Recognize."));
+                } else {
+                    pendingRequests.resolveWithFailure(req, createErrorObject(RECOGNIZED_FAILED, "Unknow Action."));
                 }
             } catch (Exception e){
                 e.printStackTrace();
@@ -242,14 +220,9 @@ public class Capture1 extends CordovaPlugin {
      */
     private JSONObject createRecognizedResult(String data) {
         JSONObject obj = new JSONObject();
-
-
         try {
             obj.put("data", data);
-//            obj.put("lastModifiedDate", fp.lastModified());
-//            obj.put("size", fp.length());
         } catch (JSONException e) {
-            // this will never happen
             e.printStackTrace();
         }
         return obj;
@@ -268,7 +241,7 @@ public class Capture1 extends CordovaPlugin {
 
     private void executeRequest(Request req) {
         switch (req.action) {
-            case CAPTURE_VIDEO:
+            case RECOGNIZE_ID:
                 this.docRecognize(req);
                 break;
         }

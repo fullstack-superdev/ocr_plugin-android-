@@ -96,14 +96,14 @@ public final class OcrCaptureActivity extends Activity {
         mPreview = (CameraSourcePreview) findViewById(getResources().getIdentifier("preview", "id", getPackageName()));
         mGraphicOverlay = (GraphicOverlay<OcrGraphic>) findViewById(getResources().getIdentifier("graphicOverlay", "id", getPackageName()));
 
-        boolean autoFocus = getIntent().getBooleanExtra(AutoFocus, false);
-        boolean useFlash = getIntent().getBooleanExtra(UseFlash, false);
+        //boolean autoFocus = getIntent().getBooleanExtra(AutoFocus, false);
+        //boolean useFlash = getIntent().getBooleanExtra(UseFlash, false);
 
         // Check for the camera permission before accessing the camera.  If the
         // permission is not granted yet, request permission.
         int rc = ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
         if (rc == PackageManager.PERMISSION_GRANTED) {
-            createCameraSource(autoFocus, useFlash);
+            createCameraSource(true, false);
         } else {
             requestCameraPermission();
         }
@@ -123,15 +123,12 @@ public final class OcrCaptureActivity extends Activity {
         captureButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String[] str=resultStr;
-                JSONObject obj = new JSONObject();
-                try {
-                    obj.put("data", "OKKKK");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                Config.request.results.put(obj);
-                Config.pendingRequests.resolveWithSuccess(Config.request);
+                String result = "";
+                for(int i=0; i<resultStr.length; i++)
+                    result += resultStr[i] + "\n";
+                Intent data = new Intent();
+                data.putExtra("recognized_id_string", result);
+                setResult(RESULT_OK, data);
                 finish();
             }
         });
@@ -294,9 +291,9 @@ public final class OcrCaptureActivity extends Activity {
         if (grantResults.length != 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             Log.d(TAG, "Camera permission granted - initialize the camera source");
             // We have permission, so create the camerasource
-            boolean autoFocus = getIntent().getBooleanExtra(AutoFocus,false);
-            boolean useFlash = getIntent().getBooleanExtra(UseFlash, false);
-            createCameraSource(autoFocus, useFlash);
+            //boolean autoFocus = getIntent().getBooleanExtra(AutoFocus,false);
+            //boolean useFlash = getIntent().getBooleanExtra(UseFlash, false);
+            createCameraSource(true, false);
             return;
         }
 
@@ -341,97 +338,4 @@ public final class OcrCaptureActivity extends Activity {
             }
         }
     }
-
-    /**
-     * onTap is called to capture the first TextBlock under the tap location and return it to
-     * the Initializing Activity.
-     *
-     * @param rawX - the raw position of the tap
-     * @param rawY - the raw position of the tap.
-     * @return true if the activity is ending.
-     */
-    private boolean onTap(float rawX, float rawY) {
-        OcrGraphic graphic = mGraphicOverlay.getGraphicAtLocation(rawX, rawY);
-        TextBlock text = null;
-        if (graphic != null) {
-            text = graphic.getTextBlock();
-            if (text != null && text.getValue() != null) {
-                Intent data = new Intent();
-                data.putExtra(TextBlockObject, text.getValue());
-                setResult(CommonStatusCodes.SUCCESS, data);
-                finish();
-            }
-            else {
-                Log.d(TAG, "text data is null");
-            }
-        }
-        else {
-            Log.d(TAG,"no text detected");
-        }
-        return text != null;
-    }
-
-    private class CaptureGestureListener extends GestureDetector.SimpleOnGestureListener {
-
-        @Override
-        public boolean onSingleTapConfirmed(MotionEvent e) {
-            return onTap(e.getRawX(), e.getRawY()) || super.onSingleTapConfirmed(e);
-        }
-    }
-
-    private class ScaleListener implements ScaleGestureDetector.OnScaleGestureListener {
-
-        /**
-         * Responds to scaling events for a gesture in progress.
-         * Reported by pointer motion.
-         *
-         * @param detector The detector reporting the event - use this to
-         *                 retrieve extended info about event state.
-         * @return Whether or not the detector should consider this event
-         * as handled. If an event was not handled, the detector
-         * will continue to accumulate movement until an event is
-         * handled. This can be useful if an application, for example,
-         * only wants to update scaling factors if the change is
-         * greater than 0.01.
-         */
-        @Override
-        public boolean onScale(ScaleGestureDetector detector) {
-            return false;
-        }
-
-        /**
-         * Responds to the beginning of a scaling gesture. Reported by
-         * new pointers going down.
-         *
-         * @param detector The detector reporting the event - use this to
-         *                 retrieve extended info about event state.
-         * @return Whether or not the detector should continue recognizing
-         * this gesture. For example, if a gesture is beginning
-         * with a focal point outside of a region where it makes
-         * sense, onScaleBegin() may return false to ignore the
-         * rest of the gesture.
-         */
-        @Override
-        public boolean onScaleBegin(ScaleGestureDetector detector) {
-            return true;
-        }
-
-        /**
-         * Responds to the end of a scale gesture. Reported by existing
-         * pointers going up.
-         * <p/>
-         * Once a scale has ended, {@link ScaleGestureDetector#getFocusX()}
-         * and {@link ScaleGestureDetector#getFocusY()} will return focal point
-         * of the pointers remaining on the screen.
-         *
-         * @param detector The detector reporting the event - use this to
-         *                 retrieve extended info about event state.
-         */
-        @Override
-        public void onScaleEnd(ScaleGestureDetector detector) {
-            mCameraSource.doZoom(detector.getScaleFactor());
-        }
-    }
-
-
 }

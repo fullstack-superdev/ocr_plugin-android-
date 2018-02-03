@@ -157,10 +157,6 @@ public class PendingRequests {
     public class Request {
 
         // Keys for use in saving requests to a bundle
-        private static final String ACTION_KEY = "action";
-        private static final String LIMIT_KEY = "limit";
-        private static final String DURATION_KEY = "duration";
-        private static final String QUALITY_KEY = "quality";
         private static final String RESULTS_KEY = "results";
 
         // Unique int used to identify this request in any Android Permission or Activity callbacks
@@ -168,15 +164,6 @@ public class PendingRequests {
 
         // The action that this request is performing
         public int action;
-
-        // The number of pics/vids/audio clips to take (CAPTURE_IMAGE, CAPTURE_VIDEO, CAPTURE_AUDIO)
-        public long limit = 1;
-
-        // Optional max duration of recording in seconds (CAPTURE_VIDEO only)
-        public int duration = 0;
-
-        // Quality level for video capture 0 low, 1 high (CAPTURE_VIDEO only)
-        public int quality = 1;
 
         // The array of results to be returned to the javascript callback on success
         public JSONArray results = new JSONArray();
@@ -188,22 +175,12 @@ public class PendingRequests {
             this.callbackContext = callbackContext;
             this.action = action;
 
-            if (options != null) {
-                this.limit = options.optLong("limit", 1);
-                this.duration = options.optInt("duration", 0);
-                this.quality = options.optInt("quality", 1);
-            }
-
             this.requestCode = incrementCurrentReqId();
         }
 
         private Request(Bundle bundle, CallbackContext callbackContext, int requestCode) {
             this.callbackContext = callbackContext;
             this.requestCode = requestCode;
-            this.action = bundle.getInt(ACTION_KEY);
-            this.limit = bundle.getLong(LIMIT_KEY);
-            this.duration = bundle.getInt(DURATION_KEY);
-            this.quality = bundle.getInt(QUALITY_KEY);
 
             try {
                 this.results = new JSONArray(bundle.getString(RESULTS_KEY));
@@ -215,13 +192,6 @@ public class PendingRequests {
 
         private Bundle toBundle() {
             Bundle bundle = new Bundle();
-
-            bundle.putInt(ACTION_KEY, this.action);
-            bundle.putLong(LIMIT_KEY, this.limit);
-            bundle.putInt(DURATION_KEY, this.duration);
-            bundle.putInt(QUALITY_KEY, this.quality);
-            bundle.putString(RESULTS_KEY, this.results.toString());
-
             return bundle;
         }
     }
