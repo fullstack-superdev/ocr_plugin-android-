@@ -46,6 +46,9 @@ import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 
 /**
@@ -117,12 +120,21 @@ public final class OcrCaptureActivity extends Activity {
 
         captureButton = (Button)findViewById(getResources().getIdentifier("button_capture", "id", getPackageName()));
 
-//        captureButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                mCamera.takePicture(null, null, mPicture);
-//            }
-//        });
+        captureButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String[] str=resultStr;
+                JSONObject obj = new JSONObject();
+                try {
+                    obj.put("data", "OKKKK");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Config.request.results.put(obj);
+                Config.pendingRequests.resolveWithSuccess(Config.request);
+                finish();
+            }
+        });
 
     }
 
