@@ -59,6 +59,7 @@ import java.io.IOException;
 public final class OcrCaptureActivity extends Activity {
     private static final String TAG = "OcrCaptureActivity";
     public static String[] resultStr = new String[8];
+    public static final Object[] obj = new Object[0];
     // Intent request code to handle updating play services if needed.
     private static final int RC_HANDLE_GMS = 9001;
 
@@ -124,8 +125,10 @@ public final class OcrCaptureActivity extends Activity {
             @Override
             public void onClick(View view) {
                 String result = "";
-                for(int i=0; i<resultStr.length; i++)
-                    result += resultStr[i] + "\n";
+                synchronized (OcrCaptureActivity.obj) {
+                    for (int i = 0; i < resultStr.length; i++)
+                        result += resultStr[i] + "\n";
+                }
                 Intent data = new Intent();
                 data.putExtra("recognized_id_string", result);
                 setResult(RESULT_OK, data);
@@ -166,15 +169,6 @@ public final class OcrCaptureActivity extends Activity {
 //                Snackbar.LENGTH_INDEFINITE)
 //                .setAction(getResources().getIdentifier("ok", "string", getPackageName()), listener)
 //                .show();
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent e) {
-        boolean b = scaleGestureDetector.onTouchEvent(e);
-
-        boolean c = gestureDetector.onTouchEvent(e);
-
-        return b || c || super.onTouchEvent(e);
     }
 
     /**
@@ -236,6 +230,9 @@ public final class OcrCaptureActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+        for( int i=0; i<resultStr.length; i++)
+            resultStr[i]="";
+
         startCameraSource();
     }
 

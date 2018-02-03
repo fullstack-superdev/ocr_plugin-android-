@@ -49,13 +49,15 @@ public class OcrDetectorProcessor implements Detector.Processor<TextBlock> {
         SparseArray<TextBlock> items = detections.getDetectedItems();
         String[] OCR_result=find_amount(items);
         int n=0;
-        for (int i=0;i<OCR_result.length;i++)
-        {
-            if(OcrCaptureActivity.resultStr[i]==null || OcrCaptureActivity.resultStr[i]=="" )
 
-                OcrCaptureActivity.resultStr[i]=OCR_result[i];
-            if( OcrCaptureActivity.resultStr[i]!=null &&  OcrCaptureActivity.resultStr[i]!="")
-                n++;
+        synchronized (OcrCaptureActivity.obj) {
+            for (int i = 0; i < OCR_result.length; i++) {
+                if (OcrCaptureActivity.resultStr[i] == null || OcrCaptureActivity.resultStr[i] == "")
+
+                    OcrCaptureActivity.resultStr[i] = OCR_result[i];
+                if (OcrCaptureActivity.resultStr[i] != null && OcrCaptureActivity.resultStr[i] != "")
+                    n++;
+            }
         }
 
         for (int i = 0; i < items.size(); ++i) {

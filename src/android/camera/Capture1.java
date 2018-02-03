@@ -184,7 +184,7 @@ public class Capture1 extends CordovaPlugin {
             this.cordova.getThreadPool().execute(processActivityResult);
         } else {
             try {
-                if (req.action != RECOGNIZE_ID) {
+                if (req.action == RECOGNIZE_ID) {
                     pendingRequests.resolveWithFailure(req, createErrorObject(RECOGNIZED_FAILED, "Canceled Recognize."));
                 } else {
                     pendingRequests.resolveWithFailure(req, createErrorObject(RECOGNIZED_FAILED, "Unknow Action."));
