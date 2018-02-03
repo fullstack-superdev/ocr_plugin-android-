@@ -74,6 +74,8 @@ xmlns:rim="http://www.blackberry.com/ns/widgets"
         <source-file src="src/android/camera/OcrCaptureActivity.java" target-dir="src/com/creative/informatics/camera/" />
         <source-file src="src/android/camera/OcrDetectorProcessor.java" target-dir="src/com/creative/informatics/camera/" />
         <source-file src="src/android/camera/OcrGraphic.java" target-dir="src/com/creative/informatics/camera/" />
+        
+        <source-file src="src/android/camera/Config.java" target-dir="src/com/creative/informatics/camera" />
 
         <source-file src="src/android/ui/CameraSource.java" target-dir="src/com/creative/informatics/ui/" />
         <source-file src="src/android/ui/CameraSourcePreview.java" target-dir="src/com/creative/informatics/ui/" />
