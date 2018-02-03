@@ -20,7 +20,7 @@
 xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:rim="http://www.blackberry.com/ns/widgets"
            id="cordova-plugin-doc-detect"
-      version="1.1.7">
+      version="1.2.8">
     <name>DocDetect</name>
 
     <description>Doc Crop using Perspective Transform</description>
@@ -60,7 +60,6 @@ xmlns:rim="http://www.blackberry.com/ns/widgets"
         </config-file>
 
         <config-file target="AndroidManifest.xml" parent="/manifest/application">
-        <activity android:name="com.creative.informatics.camera.MainActivity" android:screenOrientation="portrait" android:theme="@android:style/Theme.DeviceDefault.NoActionBar" />
         <activity android:name="com.creative.informatics.camera.OcrCaptureActivity" android:screenOrientation="portrait" android:theme="@android:style/Theme.DeviceDefault.NoActionBar" />
         </config-file>
 
@@ -70,12 +69,9 @@ xmlns:rim="http://www.blackberry.com/ns/widgets"
         <source-file src="src/android/camera/Capture1.java" target-dir="src/com/creative/informatics/camera" />
         <source-file src="src/android/camera/PendingRequests.java" target-dir="src/com/creative/informatics/camera" />
         <source-file src="src/android/camera/FileHelper.java" target-dir="src/com/creative/informatics/camera" />
-        <source-file src="src/android/camera/MainActivity.java" target-dir="src/com/creative/informatics/camera/" />
         <source-file src="src/android/camera/OcrCaptureActivity.java" target-dir="src/com/creative/informatics/camera/" />
         <source-file src="src/android/camera/OcrDetectorProcessor.java" target-dir="src/com/creative/informatics/camera/" />
         <source-file src="src/android/camera/OcrGraphic.java" target-dir="src/com/creative/informatics/camera/" />
-        
-        <source-file src="src/android/camera/Config.java" target-dir="src/com/creative/informatics/camera" />
 
         <source-file src="src/android/ui/CameraSource.java" target-dir="src/com/creative/informatics/ui/" />
         <source-file src="src/android/ui/CameraSourcePreview.java" target-dir="src/com/creative/informatics/ui/" />
