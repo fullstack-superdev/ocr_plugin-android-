@@ -20,7 +20,7 @@
 xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:rim="http://www.blackberry.com/ns/widgets"
            id="cordova-plugin-doc-detect"
-      version="1.2.9">
+      version="1.2.10">
     <name>DocDetect</name>
 
     <description>Doc Crop using Perspective Transform</description>
@@ -64,7 +64,7 @@ xmlns:rim="http://www.blackberry.com/ns/widgets"
         </config-file>
 
         <framework src="com.android.support:support-v4:+" />
-        <framework src="com.google.android.gms:play-services-vision:9.4.0+" />
+        <framework src="com.google.android.gms:play-services-vision:11.4.2+" />
         
         <source-file src="src/android/camera/Capture1.java" target-dir="src/com/creative/informatics/camera" />
         <source-file src="src/android/camera/PendingRequests.java" target-dir="src/com/creative/informatics/camera" />

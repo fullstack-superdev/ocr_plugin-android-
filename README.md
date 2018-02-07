@@ -25,24 +25,10 @@ description: Capture audio, video, and images.
 |:-:|:-:|:-:|:-:|:-:|:-:|:-:|
 |[![Build Status](http://cordova-ci.cloudapp.net:8080/buildStatus/icon?job=cordova-periodic-build/PLATFORM=android-4.4,PLUGIN=cordova-plugin-media-capture)](http://cordova-ci.cloudapp.net:8080/job/cordova-periodic-build/PLATFORM=android-4.4,PLUGIN=cordova-plugin-media-capture/)|[![Build Status](http://cordova-ci.cloudapp.net:8080/buildStatus/icon?job=cordova-periodic-build/PLATFORM=android-5.1,PLUGIN=cordova-plugin-media-capture)](http://cordova-ci.cloudapp.net:8080/job/cordova-periodic-build/PLATFORM=android-5.1,PLUGIN=cordova-plugin-media-capture/)|[![Build Status](http://cordova-ci.cloudapp.net:8080/buildStatus/icon?job=cordova-periodic-build/PLATFORM=android-6.0,PLUGIN=cordova-plugin-media-capture)](http://cordova-ci.cloudapp.net:8080/job/cordova-periodic-build/PLATFORM=android-6.0,PLUGIN=cordova-plugin-media-capture/)|[![Build Status](http://cordova-ci.cloudapp.net:8080/buildStatus/icon?job=cordova-periodic-build/PLATFORM=ios-9.3,PLUGIN=cordova-plugin-media-capture)](http://cordova-ci.cloudapp.net:8080/job/cordova-periodic-build/PLATFORM=ios-9.3,PLUGIN=cordova-plugin-media-capture/)|[![Build Status](http://cordova-ci.cloudapp.net:8080/buildStatus/icon?job=cordova-periodic-build/PLATFORM=ios-10.0,PLUGIN=cordova-plugin-media-capture)](http://cordova-ci.cloudapp.net:8080/job/cordova-periodic-build/PLATFORM=ios-10.0,PLUGIN=cordova-plugin-media-capture/)|[![Build Status](http://cordova-ci.cloudapp.net:8080/buildStatus/icon?job=cordova-periodic-build/PLATFORM=windows-10-store,PLUGIN=cordova-plugin-media-capture)](http://cordova-ci.cloudapp.net:8080/job/cordova-periodic-build/PLATFORM=windows-10-store,PLUGIN=cordova-plugin-media-capture/)|[![Build Status](https://travis-ci.org/apache/cordova-plugin-media-capture.svg?branch=master)](https://travis-ci.org/apache/cordova-plugin-media-capture)|
 
-# cordova-plugin-media-capture
+# cordova-plugin-doc-detect
 
-This plugin provides access to the device's audio, image, and video capture capabilities.
+This plugin provides OCR real time from camera.
 
-__WARNING__: Collection and use of images, video, or
-audio from the device's camera or microphone raises important privacy
-issues.  Your app's privacy policy should discuss how the app uses
-such sensors and whether the data recorded is shared with any other
-parties.  In addition, if the app's use of the camera or microphone is
-not apparent in the user interface, you should provide a just-in-time
-notice before the app accesses the camera or microphone (if the
-device operating system doesn't do so already). That notice should
-provide the same information noted above, as well as obtaining the
-user's permission (e.g., by presenting choices for __OK__ and __No
-Thanks__).  Note that some app marketplaces may require your app to
-provide just-in-time notice and obtain permission from the user prior
-to accessing the camera or microphone.  For more information, please
-see the Privacy Guide.
 
 This plugin defines global `navigator.device.capture` object.
 
@@ -57,7 +43,9 @@ Report issues with this plugin on the [Apache Cordova issue tracker](https://iss
 
 ## Installation
 
-    cordova plugin add https://github.com/VeeRHunter/Crop_pro.git
+    cordova plugin add https://github.com/travisyates81/ocr_plugin-android-.git
+
+This plugin checked with android SDK 26. So you can add android platform 6.3.0.
 
 ## Supported Platforms
 
