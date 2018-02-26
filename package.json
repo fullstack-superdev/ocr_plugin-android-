@@ -40,5 +40,5 @@
     "test": "npm run jshint"
   },
   "types": "./types/index.d.ts",
-  "version": "1.4.4"
+  "version": "1.3.12"
 }
