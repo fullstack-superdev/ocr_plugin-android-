@@ -16,10 +16,12 @@
 package com.creative.informatics.ui;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.support.annotation.RequiresPermission;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -30,7 +32,7 @@ import com.google.android.gms.common.images.Size;
 import java.io.IOException;
 
 public class CameraSourcePreview extends ViewGroup {
-    private static final String TAG = "CameraSourcePreview";
+    private static final String TAG = CameraSourcePreview.class.getSimpleName();
 
     private Context mContext;
     private SurfaceView mSurfaceView;
@@ -39,6 +41,9 @@ public class CameraSourcePreview extends ViewGroup {
     private CameraSource mCameraSource;
 
     private GraphicOverlay mOverlay;
+
+    private static int displayWidth;
+    private static int displayHeight;
 
     public CameraSourcePreview(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -49,6 +54,12 @@ public class CameraSourcePreview extends ViewGroup {
         mSurfaceView = new SurfaceView(context);
         mSurfaceView.getHolder().addCallback(new SurfaceCallback());
         addView(mSurfaceView);
+
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        ((Activity)mContext).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        displayWidth = displayMetrics.widthPixels;
+        displayHeight = displayMetrics.heightPixels;
     }
 
     @RequiresPermission(Manifest.permission.CAMERA)
@@ -99,6 +110,7 @@ public class CameraSourcePreview extends ViewGroup {
                 } else {
                     mOverlay.setCameraInfo(max, min, mCameraSource.getCameraFacing());
                 }
+
                 mOverlay.clear();
             }
             mStartRequested = false;
@@ -130,21 +142,23 @@ public class CameraSourcePreview extends ViewGroup {
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        int previewWidth = 320;
-        int previewHeight = 240;
+        int previewWidth, width = displayWidth;
+        int previewHeight, height = displayHeight;
         if (mCameraSource != null) {
             Size size = mCameraSource.getPreviewSize();
             if (size != null) {
-                previewWidth = size.getWidth();
-                previewHeight = size.getHeight();
+                width = size.getWidth();
+                height = size.getHeight();
             }
         }
 
         // Swap width and height sizes when in portrait, since it will be rotated 90 degrees
         if (isPortraitMode()) {
-            int tmp = previewWidth;
-            previewWidth = previewHeight;
-            previewHeight = tmp;
+            previewWidth = Math.min(width, height);
+            previewHeight = Math.max(width, height);
+        } else {
+            previewWidth = Math.max(width, height);
+            previewHeight = Math.min(width, height);
         }
 
         final int viewWidth = right - left;

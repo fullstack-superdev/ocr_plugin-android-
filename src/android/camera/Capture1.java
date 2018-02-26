@@ -128,6 +128,7 @@ public class Capture1 extends CordovaPlugin {
             Intent intent = new Intent(this.cordova.getActivity(), OcrCaptureActivity.class);
 //            intent.putExtra(OcrCaptureActivity.AutoFocus, autoFocus.isChecked());
 //            intent.putExtra(OcrCaptureActivity.UseFlash, useFlash.isChecked());
+            intent.putExtra(OcrCaptureActivity.OCR_OPTION, req.options.toString());
             this.cordova.startActivityForResult((CordovaPlugin) this, intent, req.requestCode);
         }
     }
@@ -206,7 +207,7 @@ public class Capture1 extends CordovaPlugin {
         if( data == null){
             data = "Not recognized";
         }
-        req.results.put(createRecognizedResult(data));
+        req.results.put(data);  //createRecognizedResult(data)
         pendingRequests.resolveWithSuccess(req);
     }
 

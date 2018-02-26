@@ -17,7 +17,9 @@ package com.creative.informatics.ui;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.view.View;
@@ -47,6 +49,9 @@ import java.util.Set;
  * </ol>
  */
 public class GraphicOverlay<T extends GraphicOverlay.Graphic> extends View {
+
+    private static final int RESULT_TEXT_COLOR = Color.WHITE;
+
     private final Object mLock = new Object();
     private int mPreviewWidth;
     private float mWidthScaleFactor = 1.0f;
@@ -128,6 +133,13 @@ public class GraphicOverlay<T extends GraphicOverlay.Graphic> extends View {
 
     public GraphicOverlay(Context context, AttributeSet attrs) {
         super(context, attrs);
+
+        if (sTextPaint == null) {
+            sTextPaint = new Paint();
+            sTextPaint.setColor(RESULT_TEXT_COLOR);
+            sTextPaint.setTextSize(40.0f);
+            sTextPaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.ITALIC));
+        }
     }
 
     /**
@@ -146,6 +158,16 @@ public class GraphicOverlay<T extends GraphicOverlay.Graphic> extends View {
     public void add(T graphic) {
         synchronized (mLock) {
             mGraphics.add(graphic);
+        }
+        postInvalidate();
+    }
+
+    /**
+     * Adds a graphic to the overlay.
+     */
+    public void addAll(Set<T> graphics) {
+        synchronized (mLock) {
+            mGraphics.addAll(graphics);
         }
         postInvalidate();
     }
@@ -198,14 +220,9 @@ public class GraphicOverlay<T extends GraphicOverlay.Graphic> extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        if (sTextPaint == null) {
-            sTextPaint = new Paint();
-            sTextPaint.setColor(OcrGraphic.TEXT_COLOR);
-            sTextPaint.setTextSize(55.0f);
-            sTextPaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
-        }
 
         synchronized (mLock) {
+
             if ((mPreviewWidth != 0) && (mPreviewHeight != 0)) {
                 mWidthScaleFactor = (float) canvas.getWidth() / (float) mPreviewWidth;
                 mHeightScaleFactor = (float) canvas.getHeight() / (float) mPreviewHeight;
@@ -215,18 +232,12 @@ public class GraphicOverlay<T extends GraphicOverlay.Graphic> extends View {
                 graphic.draw(canvas);
             }
 
-            float left = 100;
-            float bottom=100;
-            String[] pattern_str=new String[]{"due date","simply pay by","bill issued","total due","total amount due","total amount due with discount","only pay"};
-            String[] data= OcrCaptureActivity.resultStr;
-            for (int i=0;i<data.length;i++){
-                if(data[i]==null ||  data[i]=="")
-                    continue;
-                bottom += 55;
-                String str=data[i];
-                if(i>0)
-                    str=pattern_str[i-1]+":"+str;
-                canvas.drawText(str, left, bottom, sTextPaint);
+            float x = 10, y = 50;
+            for(int i=0; i<OcrCaptureActivity.ocrDict.size(); i++){
+                OcrCaptureActivity.OCRDictionary dict = OcrCaptureActivity.ocrDict.get(i);
+                String text = dict.getDisplayString();
+                y += 55;
+                canvas.drawText(text, x, y, sTextPaint);
             }
         }
     }

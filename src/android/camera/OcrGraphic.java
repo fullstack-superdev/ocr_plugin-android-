@@ -19,10 +19,15 @@ import com.creative.informatics.ui.GraphicOverlay;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Typeface;
+import android.util.Log;
 
+import com.google.android.gms.vision.text.Text;
 import com.google.android.gms.vision.text.TextBlock;
+
+import java.util.List;
 
 /**
  * Graphic instance for rendering TextBlock position, size, and ID within an associated graphic
@@ -32,30 +37,43 @@ public class OcrGraphic extends GraphicOverlay.Graphic {
 
     private int mId;
 
-    public static final int TEXT_COLOR = Color.WHITE;
+    private Paint sRectPaint;
+    private Paint sTextPaint;
+    private int sColor;
+    private final TextBlock mTextBlock;
+    private final Text mText;
+    private RectF rect = new RectF();
 
-    private static Paint sRectPaint;
-    private static Paint sTextPaint;
-    private final TextBlock mText;
+    OcrGraphic(GraphicOverlay overlay, TextBlock text_block, int color) {
+        this(overlay, text_block, null, color);
+    }
 
-    OcrGraphic(GraphicOverlay overlay, TextBlock text) {
+    OcrGraphic(GraphicOverlay overlay, Text text, int color) {
+        this(overlay, null, text, color);
+    }
+
+    OcrGraphic(GraphicOverlay overlay, TextBlock text_block, Text text, int color) {
         super(overlay);
 
+        mTextBlock = text_block;
         mText = text;
+        sColor = color;
 
         if (sRectPaint == null) {
             sRectPaint = new Paint();
-            sRectPaint.setColor(TEXT_COLOR);
+            sRectPaint.setColor(sColor);
             sRectPaint.setStyle(Paint.Style.STROKE);
-            sRectPaint.setStrokeWidth(4.0f);
+            sRectPaint.setStrokeWidth(2.0f);
         }
 
         if (sTextPaint == null) {
             sTextPaint = new Paint();
-            sTextPaint.setColor(TEXT_COLOR);
-            sTextPaint.setTextSize(55.0f);
+            sTextPaint.setColor(sColor);
+            sTextPaint.setTextSize(50.0f);
             sTextPaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
         }
+
+        rect = new RectF();
         // Redraw the overlay, as this graphic has been added.
         postInvalidate();
     }
@@ -69,7 +87,7 @@ public class OcrGraphic extends GraphicOverlay.Graphic {
     }
 
     public TextBlock getTextBlock() {
-        return mText;
+        return mTextBlock;
     }
 
     /**
@@ -80,7 +98,7 @@ public class OcrGraphic extends GraphicOverlay.Graphic {
      * @return True if the provided point is contained within this graphic's bounding box.
      */
     public boolean contains(float x, float y) {
-        TextBlock text = mText;
+        TextBlock text = mTextBlock;
         if (text == null) {
             return false;
         }
@@ -97,34 +115,51 @@ public class OcrGraphic extends GraphicOverlay.Graphic {
      */
     @Override
     public void draw(Canvas canvas) {
-//        TextBlock text = mText;
-//        if (text == null) {
-//            return;
-//        }
-        boolean flag=false;
-        // Break the text into multiple lines and draw each one according to its own bounding box.
-//        List<? extends Text> textComponents = text.getComponents();
-//        for(Text currentText : textComponents) {
-//            float left = translateX(currentText.getBoundingBox().left);
-//            float bottom = translateY(currentText.getBoundingBox().bottom);
-//            String block_text=currentText.getValue();
-//            if(check_text(block_text) || check_month(block_text)) {
-//                flag=true;
-//                Log.d("Descriptor", String.valueOf(block_text));
-//                canvas.drawText(currentText.getValue(), left, bottom, sTextPaint);
-//            }
-//        }
+        if (mTextBlock==null && mText==null)  return;
+        if ( !OcrCaptureActivity.isDebug ) return;
 
-//        if(flag)
-//        {
+        TextBlock text_block = mTextBlock;
+        boolean flag=false;
+        if( mTextBlock!=null) {
+            // Break the text into multiple lines and draw each one according to its own bounding box.
+            List<? extends Text> textComponents = text_block.getComponents();
+            for (Text currentText : textComponents) {
+                float left = translateX(currentText.getBoundingBox().left);
+                float bottom = translateY(currentText.getBoundingBox().bottom);
+                String block_text = currentText.getValue();
+                //if(check_text(block_text) || check_month(block_text)) {
+                flag = true;
+                Log.d("Descriptor", String.valueOf(block_text));
+                canvas.drawText(currentText.getValue(), left, bottom, sTextPaint);
+                //}
+            }
+        }
+
+        Text text = mText;
+        if( mText!=null){
+            Rect rc = text.getBoundingBox();
+            float left      = translateX(rc.left);
+            float bottom    = translateY(rc.bottom);
+            canvas.drawText(text.getValue(), left, bottom, sTextPaint);
+
             // Draws the bounding box around the TextBlock.
-//            RectF rect = new RectF(text.getBoundingBox());
-//            rect.left = translateX(rect.left);
-//            rect.top = translateY(rect.top);
-//            rect.right = translateX(rect.right);
-//            rect.bottom = translateY(rect.bottom);
-//            canvas.drawRect(rect, sRectPaint);
-//        }
+            rect.left   = translateX(rc.left);
+            rect.top    = translateY(rc.top);
+            rect.right  = translateX(rc.right);
+            rect.bottom = translateY(rc.bottom);
+            canvas.drawRect(rect, sRectPaint);
+        }
+
+        if(flag)
+        {
+            Rect rc = text_block.getBoundingBox();
+            // Draws the bounding box around the TextBlock.
+            rect.left   = translateX(rc.left);
+            rect.top    = translateY(rc.top);
+            rect.right  = translateX(rc.right);
+            rect.bottom = translateY(rc.bottom);
+            canvas.drawRect(rect, sRectPaint);
+        }
 
 
 
@@ -139,7 +174,8 @@ public class OcrGraphic extends GraphicOverlay.Graphic {
         }
         return false;
     }
-    public boolean check_text(String str)
+
+    private boolean check_text(String str)
     {
         String[] pattern_str=new String[]{"due date","simply pay by","bill issued","total due","total amount due","total amount due with discount","only pay"};
         for(int i=0;i<pattern_str.length;i++)

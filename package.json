@@ -1,75 +1,18 @@
 {
-  "_args": [
-    [
-      {
-        "raw": "cordova-plugin-doc-detect",
-        "scope": null,
-        "escapedName": "cordova-plugin-doc-detect",
-        "name": "cordova-plugin-doc-detect",
-        "rawSpec": "",
-        "spec": "latest",
-        "type": "tag"
-      },
-      "E:\\AndroidWork\\CordovaPro\\idrecorgplug\\node_modules"
-    ]
-  ],
-  "_from": "git+https://github.com/travisyates81/orange_placard.git",
-  "_id": "cordova-plugin-doc-detect@1.4.4",
-  "_inBundle": false,
-  "_inCache": true,
-  "_location": "/cordova-plugin-doc-detect",
-  "_nodeVersion": "6.10.1",
-  "_npmOperationalInternal": {
-    "host": "packages-12-west.internal.npmjs.com",
-    "tmp": "tmp/cordova-plugin-doc-detect-1.4.4.tgz_1493685648831_0.005625565070658922"
-  },
-  "_npmUser": {
-    "name": "filmaj",
-    "email": "maj.fil@gmail.com"
-  },
-  "_npmVersion": "3.10.10",
-  "_phantomChildren": {},
-  "_requested": {
-    "type": "git",
-    "raw": "https://github.com/travisyates81/orange_placard.git",
-    "rawSpec": "https://github.com/travisyates81/orange_placard.git",
-    "saveSpec": "git+https://github.com/travisyates81/orange_placard.git",
-    "fetchSpec": "https://github.com/travisyates81/orange_placard.git",
-    "gitCommittish": null
-  },
-  "_requiredBy": [
-    "#USER",
-    "/"
-  ],
-  "_resolved": "git+https://github.com/travisyates81/orange_placard.git#56a787efa45229f515b670b12fe73e86bba3290e",
-  "_shasum": "20e3bbe334fbb89f624b02188eac5372743920fa",
-  "_shrinkwrap": null,
-  "_spec": "https://github.com/travisyates81/orange_placard.git",
-  "_where": "F:\\Mycompleted task\\pythontask\\image Detection\\test_camera",
-  "author": {
-    "name": "Apache Software Foundation"
-  },
-  "bugs": {
-    "url": "https://github.com/apache/cordova-plugin-doc-detect/issues"
-  },
   "bundleDependencies": false,
   "cordova": {
-    "id": "cordova-orange-placard-plugin",
+    "id": "cordova-plugin-doc-detect",
     "platforms": [
       "android"
     ]
   },
   "dependencies": {},
   "deprecated": false,
-  "description": "Cordova Orange Placard Plugin",
+  "description": "Cordova OCR Document Plugin",
   "devDependencies": {
     "jshint": "^2.6.0"
   },
   "directories": {},
-  "dist": {
-    "shasum": "20e3bbe334fbb89f624b02188eac5372743920fa",
-    "tarball": "https://registry.npmjs.org/cordova-plugin-doc-detect/-/cordova-plugin-doc-detect-1.4.4.tgz"
-  },
   "engines": {
     "cordovaDependencies": {
       "2.0.0": {
@@ -77,46 +20,20 @@
       }
     }
   },
-  "homepage": "https://github.com/apache/cordova-plugin-media-capture#readme",
+  "homepage": "https://github.com/yyc93/OCR_cordova_plugin#readme",
   "keywords": [
     "cordova",
-    "media",
-    "capture",
+    "ocr",
+    "detect",
     "ecosystem:cordova",
     "cordova-android"
   ],
-  "license": "Apache-2.0",
-  "maintainers": [
-    {
-      "name": "bowserj",
-      "email": "bowserj@apache.org"
-    },
-    {
-      "name": "csantanapr",
-      "email": "csantana23@gmail.com"
-    },
-    {
-      "name": "filmaj",
-      "email": "maj.fil@gmail.com"
-    },
-    {
-      "name": "purplecabbage",
-      "email": "purplecabbage@gmail.com"
-    },
-    {
-      "name": "shazron",
-      "email": "shazron@gmail.com"
-    },
-    {
-      "name": "stevegill",
-      "email": "stevengill97@gmail.com"
-    }
-  ],
+  "license": "Apache-2.0",  
   "name": "cordova-plugin-doc-detect",
   "optionalDependencies": {},
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/travisyates81/orange_placard.git"
+    "url": "git+https://github.com/yyc93/OCR_cordova_plugin.git"
   },
   "scripts": {
     "jshint": "jshint www && jshint src && jshint tests",

@@ -28,28 +28,36 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.GestureDetector;
-import android.view.MotionEvent;
-import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.common.api.CommonStatusCodes;
-import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static java.lang.Math.max;
+import static java.lang.Math.min;
 
 /**
  * Activity for the multi-tracker app.  This app detects text and displays the value with the
@@ -57,9 +65,9 @@ import java.io.IOException;
  * size, and contents of each TextBlock.
  */
 public final class OcrCaptureActivity extends Activity {
-    private static final String TAG = "OcrCaptureActivity";
+    private static final String TAG = OcrCaptureActivity.class.getSimpleName();
     public static String[] resultStr = new String[8];
-    public static final Object[] obj = new Object[0];
+    public static final Object obj = new Object();
     // Intent request code to handle updating play services if needed.
     private static final int RC_HANDLE_GMS = 9001;
 
@@ -67,18 +75,19 @@ public final class OcrCaptureActivity extends Activity {
     private static final int RC_HANDLE_CAMERA_PERM = 2;
 
     // Constants used to pass extra data in the intent
-    public static final String AutoFocus = "AutoFocus";
-    public static final String UseFlash = "UseFlash";
-    public static final String TextBlockObject = "String";
+    public static final String OCR_OPTION = "OcrOption";
 
     private CameraSource mCameraSource;
     private CameraSourcePreview mPreview;
     private GraphicOverlay<OcrGraphic> mGraphicOverlay;
 
     // Helper objects for detecting taps and pinches.
-    private ScaleGestureDetector scaleGestureDetector;
-    private GestureDetector gestureDetector;
-    private Button captureButton;
+//    private ScaleGestureDetector scaleGestureDetector;
+//    private GestureDetector gestureDetector;
+//    private Button btnCapture;
+    public static String ocrCountry;
+    public static List<OCRDictionary> ocrDict;
+    public static boolean isDebug;
 
 
     /**
@@ -89,16 +98,28 @@ public final class OcrCaptureActivity extends Activity {
         super.onCreate(icicle);
         setContentView(getResources().getIdentifier("ocr_capture", "layout", getPackageName()));
 
-        // mPreview = (CameraSourcePreview) findViewById(R.id.preview);
-        // mGraphicOverlay = (GraphicOverlay<OcrGraphic>) findViewById(R.id.graphicOverlay);
+        mPreview = findViewById(getResources().getIdentifier("preview", "id", getPackageName()));
+        mGraphicOverlay = findViewById(getResources().getIdentifier("graphicOverlay", "id", getPackageName()));
 
         // read parameters from the intent used to launch the activity.
-
-        mPreview = (CameraSourcePreview) findViewById(getResources().getIdentifier("preview", "id", getPackageName()));
-        mGraphicOverlay = (GraphicOverlay<OcrGraphic>) findViewById(getResources().getIdentifier("graphicOverlay", "id", getPackageName()));
-
         //boolean autoFocus = getIntent().getBooleanExtra(AutoFocus, false);
         //boolean useFlash = getIntent().getBooleanExtra(UseFlash, false);
+        try {
+            JSONObject ocrOption = new JSONObject(getIntent().getStringExtra(OCR_OPTION));
+            ocrCountry = ocrOption.optString("country");
+            isDebug = ocrOption.optBoolean("debug");
+            JSONArray ocrDictionary = new JSONArray(ocrOption.optString("dictionary"));
+            ocrDict = new ArrayList<OCRDictionary>();
+            for( int i=0; i<ocrDictionary.length(); i++ ){
+                ocrDict.add(new OCRDictionary(ocrDictionary.getJSONObject(i)));
+            }
+            if( isDebug ) {
+                Log.d(TAG, "optCountry: " + ocrCountry);
+                Log.d(TAG, "isDebug: " + isDebug);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         // Check for the camera permission before accessing the camera.  If the
         // permission is not granted yet, request permission.
@@ -112,25 +133,25 @@ public final class OcrCaptureActivity extends Activity {
 //        gestureDetector = new GestureDetector(this, new CaptureGestureListener());
 //        scaleGestureDetector = new ScaleGestureDetector(this, new ScaleListener());
 
-//        Snackbar.make(mGraphicOverlay, "Tap to capture. Pinch/Stretch to zoom",
-//                Snackbar.LENGTH_LONG)
-//                .show();
+        Button btnCapture = (Button)findViewById(getResources().getIdentifier("button_capture", "id", getPackageName()));
 
-        // captureButton = (Button)findViewById(R.id.button_capture);
-
-
-        captureButton = (Button)findViewById(getResources().getIdentifier("button_capture", "id", getPackageName()));
-
-        captureButton.setOnClickListener(new View.OnClickListener() {
+        btnCapture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String result = "";
+                JSONArray result = new JSONArray();
+                JSONObject objResult = new JSONObject();
                 synchronized (OcrCaptureActivity.obj) {
-                    for (int i = 0; i < resultStr.length; i++)
-                        result += resultStr[i] + "\n";
+                    for( OCRDictionary dict : OcrCaptureActivity.ocrDict) {
+                        try {
+                            objResult.putOpt(dict.name, dict.resValue);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
+                result.put(objResult);
                 Intent data = new Intent();
-                data.putExtra("recognized_id_string", result);
+                data.putExtra("recognized_id_string", result.toString());
                 setResult(RESULT_OK, data);
                 finish();
             }
@@ -212,12 +233,17 @@ public final class OcrCaptureActivity extends Activity {
             }
         }
 
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int width = displayMetrics.widthPixels;
+        int height = displayMetrics.heightPixels;
+
         // Creates and starts the camera.  Note that this uses a higher resolution in comparison
         // to other detection examples to enable the text recognizer to detect small pieces of text.
         mCameraSource =
                 new CameraSource.Builder(getApplicationContext(), textRecognizer)
                 .setFacing(CameraSource.CAMERA_FACING_BACK)
-                .setRequestedPreviewSize(1280, 1024)
+                .setRequestedPreviewSize(max(width, height), min(width, height))
                 .setRequestedFps(2.0f)
                 .setFlashMode(useFlash ? Camera.Parameters.FLASH_MODE_TORCH : null)
                 .setFocusMode(autoFocus ? Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE : null)
@@ -230,8 +256,6 @@ public final class OcrCaptureActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        for( int i=0; i<resultStr.length; i++)
-            resultStr[i]="";
 
         startCameraSource();
     }
@@ -245,6 +269,16 @@ public final class OcrCaptureActivity extends Activity {
         if (mPreview != null) {
             mPreview.stop();
         }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        if (mPreview != null) {
+            mPreview.stop();
+        }
+        startCameraSource();
     }
 
     /**
@@ -333,6 +367,153 @@ public final class OcrCaptureActivity extends Activity {
                 mCameraSource.release();
                 mCameraSource = null;
             }
+        }
+    }
+
+
+    public static class OCRDictionary {
+        private static final String DEFAULT_VALUE = "---";
+
+        public String name;
+        public boolean mandatory;
+        public List<String> keywords;
+        public List<String> patterns;
+        public String resKeyword;
+        public String resValue;
+        public int indexOfPattern;
+
+        public OCRDictionary(JSONObject object){
+            name = object.optString("Name");
+            mandatory = object.optBoolean("Mandatory");
+            keywords = new ArrayList<String>();
+
+            JSONArray array = object.optJSONArray("Keywords");
+            if( array != null) {
+                for (int i = 0; i < array.length(); i++) {
+                    keywords.add(array.optString(i));
+                }
+            }
+
+            patterns = new ArrayList<String>();
+            String strPatterns = object.optString("Patterns");
+            if( !strPatterns.isEmpty() )
+                patterns = Arrays.asList(strPatterns.split("&&"));
+            else
+                patterns = null;
+
+            resKeyword = "";
+            resValue = "";
+            indexOfPattern = -1;
+        }
+
+        public boolean hasPatterns(){
+            return patterns!=null && patterns.size()>0;
+        }
+
+        private String getKeyName(){
+            return resKeyword.isEmpty() ? name : resKeyword;
+        }
+
+        private String getDisplayValue() {
+            return resValue.isEmpty() ? DEFAULT_VALUE : resValue;
+        }
+
+        public String getDisplayString(){
+            String result = name + ":" + getDisplayValue();
+            if( OcrCaptureActivity.isDebug )
+                result += "/" + resKeyword + "/" + (indexOfPattern + 1);
+
+            return result;
+        }
+
+        public boolean isSetValue(){
+            return !resValue.isEmpty();
+        }
+
+        public int getIndexKeywords(String string){
+            for(int i=0; i<keywords.size(); i++){
+                String key = keywords.get(i);
+                if( checkContainKeyword(key, string) )
+                    return i;
+            }
+            return -1;
+        }
+
+        private boolean checkContainKeyword(String key, String container){
+            String sKey = key.toLowerCase();
+            String sContainer = container.toLowerCase();
+            if( sContainer.contains(sKey) ){
+                if( sKey.length() > 10 ) return true;
+
+                Pattern p = Pattern.compile("[a-z0-9]"+sKey);
+                if (p.matcher(container).find())
+                    return false;
+
+                p = Pattern.compile(sKey+"[a-z0-9]");
+                if( p.matcher(container).find())
+                    return false;
+
+                return true;
+            }
+
+            return false;
+        }
+
+        public Map<String, Object> checkMatchValuePattern(String string){
+            if( string==null || string.isEmpty() ) return null;
+
+            final HashMap<String, Object> resultMap = new HashMap();
+            String res = ""; int num = -1;
+            boolean result = false;
+            if( !hasPatterns() ){
+                res = string;
+                num = -1;
+                result = true;
+            } else {
+                for (int i=0; i<patterns.size(); i++) {
+                    String pattern = patterns.get(i);
+                    Pattern p = Pattern.compile("(?i:"+pattern+")");
+                    Matcher match = p.matcher(string);
+                    if( match.find() ) {
+                        String strMatched = match.group();
+                        if( strMatched.length() > res.length() ){
+                            res = strMatched;
+                            num = i;
+                            result = true;
+                        }
+                    }
+                }
+            }
+            if( result ){
+                resultMap.put("result_value", res);
+                resultMap.put("pattern_num", num);
+                return resultMap;
+            }
+            return null;
+        }
+
+        public boolean setValueIfAcceptable(String string){
+            Map<String, Object> result = checkMatchValuePattern(string);
+            if( result == null) return false;
+
+            String value = (String)result.get("result_value");
+            if(value==null) value = "";
+            Integer num = (Integer) result.get("pattern_num");
+            if(num==null) num = -1;
+
+            if( isSetValue() ){
+                if( value.length() > resValue.length() ){
+                    resValue = value;
+                    indexOfPattern = num;
+                    return true;
+                }
+            } else {
+                resValue = value;
+                indexOfPattern = num;
+                return true;
+            }
+
+            return false;
         }
     }
 }

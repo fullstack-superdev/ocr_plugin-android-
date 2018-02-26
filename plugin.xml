@@ -26,7 +26,7 @@ xmlns:rim="http://www.blackberry.com/ns/widgets"
     <description>Doc Crop using Perspective Transform</description>
     <license>Apache 2.0</license>
     <keywords>cordova,media,capture</keywords>
-    <repo>https://github.com/travisyates81/orange_placard.git</repo>
+    <repo>https://github.com/yyc93/OCR_cordova_plugin.git</repo>
     <issue>https://issues.apache.org/jira/browse/CB/component/12320646</issue>
 
      <!-- <dependency id="cordova-plugin-file" version="^4.0.0" /> --> 
@@ -34,6 +34,10 @@ xmlns:rim="http://www.blackberry.com/ns/widgets"
 
     <js-module src="www/CaptureError.js" name="CaptureError">
         <clobbers target="CaptureError" />
+    </js-module>
+
+    <js-module src="www/OcrOptions.js" name="OcrOptions">
+        <clobbers target="OcrOptions" />
     </js-module>
 
     <js-module src="www/capture.js" name="capture">
@@ -60,7 +64,7 @@ xmlns:rim="http://www.blackberry.com/ns/widgets"
         </config-file>
 
         <config-file target="AndroidManifest.xml" parent="/manifest/application">
-        <activity android:name="com.creative.informatics.camera.OcrCaptureActivity" android:screenOrientation="portrait" android:theme="@android:style/Theme.DeviceDefault.NoActionBar" />
+            <activity android:configChanges="orientation|screenSize" android:name="com.creative.informatics.camera.OcrCaptureActivity" android:screenOrientation="sensor" android:theme="@android:style/Theme.DeviceDefault.NoActionBar" />
         </config-file>
 
         <framework src="com.android.support:support-v4:+" />

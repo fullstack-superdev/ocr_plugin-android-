@@ -30,6 +30,14 @@ function Capture1() {
 }
 
 
+/**
+ * Launches a recognize of OCR.
+ *
+ * @param (DOMString} type
+ * @param {Function} successCallback
+ * @param {Function} errorCallback
+ * @param {OcrOptions} options
+ */
 function _recognize(type, successCallback, errorCallback, options) {
     var win = function(pluginResult) {
         successCallback(pluginResult);
@@ -37,6 +45,14 @@ function _recognize(type, successCallback, errorCallback, options) {
     exec(win, errorCallback, "Capture1", type, [options]);
 }
 
+
+/**
+ * Launch device camera application for recgnize ocr.
+ *
+ * @param {Function} successCallback
+ * @param {Function} errorCallback
+ * @param {OcrOptions} options
+ */
 Capture1.prototype.docRecognize = function(successCallback, errorCallback, options){
     _recognize("docRecognize", successCallback, errorCallback, options);
 };

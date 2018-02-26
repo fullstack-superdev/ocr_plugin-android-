@@ -163,6 +163,9 @@ public class PendingRequests {
         public int requestCode;
 
         // The action that this request is performing
+        public JSONObject options;
+
+        // The action that this request is performing
         public int action;
 
         // The array of results to be returned to the javascript callback on success
@@ -174,6 +177,7 @@ public class PendingRequests {
         private Request(int action, JSONObject options, CallbackContext callbackContext) throws JSONException {
             this.callbackContext = callbackContext;
             this.action = action;
+            this.options = options;
 
             this.requestCode = incrementCurrentReqId();
         }
