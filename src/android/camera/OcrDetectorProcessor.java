@@ -93,11 +93,13 @@ public class OcrDetectorProcessor implements Detector.Processor<TextBlock> {
         find_value(items);
         Set<OcrGraphic> graphics = new HashSet<OcrGraphic>();
 
-        for (int i = 0; i < items.size(); ++i) {
-            TextBlock item = items.valueAt(i);
-            OcrGraphic graphic = new OcrGraphic(mGraphicOverlay, item, Color.YELLOW);
+        if ( OcrCaptureActivity.isDebug ) {
+            for (int i = 0; i < items.size(); ++i) {
+                TextBlock item = items.valueAt(i);
+                OcrGraphic graphic = new OcrGraphic(mGraphicOverlay, item, Color.YELLOW);
 
-            graphics.add(graphic);
+                graphics.add(graphic);
+            }
         }
 
         for( DetectionDictInfo info : mDictInfoList){

@@ -116,7 +116,6 @@ public class OcrGraphic extends GraphicOverlay.Graphic {
     @Override
     public void draw(Canvas canvas) {
         if (mTextBlock==null && mText==null)  return;
-        if ( !OcrCaptureActivity.isDebug ) return;
 
         TextBlock text_block = mTextBlock;
         boolean flag=false;
