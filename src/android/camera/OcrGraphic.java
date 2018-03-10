@@ -124,11 +124,13 @@ public class OcrGraphic extends GraphicOverlay.Graphic {
             List<? extends Text> textComponents = text_block.getComponents();
             for (Text currentText : textComponents) {
                 float left = translateX(currentText.getBoundingBox().left);
+                float right = translateX(currentText.getBoundingBox().right);
                 float bottom = translateY(currentText.getBoundingBox().bottom);
                 String block_text = currentText.getValue();
                 //if(check_text(block_text) || check_month(block_text)) {
                 flag = true;
                 Log.d("Descriptor", String.valueOf(block_text));
+                setTextSizeForWidth(sTextPaint, right-left, currentText.getValue());
                 canvas.drawText(currentText.getValue(), left, bottom, sTextPaint);
                 //}
             }
@@ -138,7 +140,9 @@ public class OcrGraphic extends GraphicOverlay.Graphic {
         if( mText!=null){
             Rect rc = text.getBoundingBox();
             float left      = translateX(rc.left);
+            float right      = translateX(rc.right);
             float bottom    = translateY(rc.bottom);
+            setTextSizeForWidth(sTextPaint, right-left, text.getValue());
             canvas.drawText(text.getValue(), left, bottom, sTextPaint);
 
             // Draws the bounding box around the TextBlock.
@@ -187,5 +191,37 @@ public class OcrGraphic extends GraphicOverlay.Graphic {
         if(str.substring(0,1).contains("$"))
             return true;
         return false;
+    }
+
+    /**
+     * Sets the text size for a Paint object so a given string of text will be a
+     * given width.
+     *
+     * @param paint
+     *            the Paint to set the text size for
+     * @param desiredWidth
+     *            the desired width
+     * @param text
+     *            the text that should be that width
+     */
+    private static void setTextSizeForWidth(Paint paint, float desiredWidth,
+                                            String text) {
+
+        // Pick a reasonably large value for the test. Larger values produce
+        // more accurate results, but may cause problems with hardware
+        // acceleration. But there are workarounds for that, too; refer to
+        // http://stackoverflow.com/questions/6253528/font-size-too-large-to-fit-in-cache
+        final float testTextSize = 48f;
+
+        // Get the bounds of the text, using our testTextSize.
+        paint.setTextSize(testTextSize);
+        Rect bounds = new Rect();
+        paint.getTextBounds(text, 0, text.length(), bounds);
+
+        // Calculate the desired size as a proportion of our testTextSize.
+        float desiredTextSize = testTextSize * desiredWidth / bounds.width();
+
+        // Set the paint for that size.
+        paint.setTextSize(desiredTextSize);
     }
 }
