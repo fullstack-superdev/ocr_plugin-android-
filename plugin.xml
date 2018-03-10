@@ -67,7 +67,6 @@ xmlns:rim="http://www.blackberry.com/ns/widgets"
             <activity android:configChanges="orientation|screenSize" android:name="com.creative.informatics.camera.OcrCaptureActivity" android:screenOrientation="sensor" android:theme="@android:style/Theme.DeviceDefault.NoActionBar" />
         </config-file>
 
-        <framework src="com.android.support:support-v4:+" />
         <framework src="com.google.android.gms:play-services-vision:11.4.2+" />
         
         <source-file src="src/android/camera/Capture1.java" target-dir="src/com/creative/informatics/camera" />
@@ -81,11 +80,8 @@ xmlns:rim="http://www.blackberry.com/ns/widgets"
         <source-file src="src/android/ui/CameraSourcePreview.java" target-dir="src/com/creative/informatics/ui/" />
         <source-file src="src/android/ui/GraphicOverlay.java" target-dir="src/com/creative/informatics/ui/" />
 
-        <resource-file src="src/android/res/layout/activity_main.xml" target="res/layout/activity_main.xml" />
         <resource-file src="src/android/res/layout/ocr_capture.xml" target="res/layout/ocr_capture.xml" />
-
-        <resource-file src="src/android/res/values/dimens.xml" target="res/values/crop_colors.xml" />
-        <resource-file src="src/android/res/values/strings.xml" target="res/values/crop_dimens.xml" />
+        <resource-file src="src/android/res/values/strings.xml" target="res/values/ocr_strings.xml" />
 
         <js-module src="www/android/init.js" name="init">
             <runs />
