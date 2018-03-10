@@ -108,7 +108,7 @@ public final class OcrCaptureActivity extends Activity {
             JSONObject ocrOption = new JSONObject(getIntent().getStringExtra(OCR_OPTION));
             ocrCountry = ocrOption.optString("country");
             isDebug = ocrOption.optBoolean("debug");
-            JSONArray ocrDictionary = new JSONArray(ocrOption.optString("dictionary"));
+            JSONArray ocrDictionary = ocrOption.optJSONArray("dictionary");
             ocrDict = new ArrayList<OCRDictionary>();
             for( int i=0; i<ocrDictionary.length(); i++ ){
                 ocrDict.add(new OCRDictionary(ocrDictionary.getJSONObject(i)));
